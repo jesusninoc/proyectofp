@@ -1,0 +1,60 @@
+entity Admin {
+	username String required unique,
+    password String required,
+    name String required,
+    lastname String required
+} 
+
+entity Instructor {
+	username String required unique,
+    password String required,
+	name String required,
+    lastname String required,
+    image String,
+}
+
+entity Course {
+	name String required unique,
+    description TextBlob required,
+    image String required
+}
+
+entity Lesson{
+	name String required,
+    description TextBlob required,
+  	link String required
+}
+
+entity Student {
+	username String required unique,
+    password String required,
+    name String required,
+    lastname String required,
+    image String,
+}
+
+enum Language {
+    SPANISH
+}
+
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+	Course to Lesson{course},
+    Instructor to Course{instructor}
+}
+
+relationship ManyToMany {
+	Student{courses} to Course,
+}
+
+
+paginate all with pagination
+
+// Use Data Transfer Objects (DTO)
+// dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
