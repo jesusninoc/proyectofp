@@ -44,7 +44,7 @@ relationship OneToMany {
 }
 
 relationship ManyToMany {
-	Student{courses} to Course,
+	Student to Course,
 }
 
 

@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AcademiaonlineApp<academiaonline>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.diegoflores.onlineacademy.AcademiaonlineApp",
+            "projectName": "academiaonline",
+            "args": ""
+        }
+    ]
+}

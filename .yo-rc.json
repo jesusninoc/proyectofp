@@ -41,6 +41,8 @@
     "packageFolder": "com/diegoflores/onlineacademy",
     "jwtSecretKey": "ZDliY2IxYzc4MDNjMjhjOWZkZjVjYWQ3ZjlkMjAwY2NkYzEyODM4NWVhY2FjY2Q4MjYzMzExYWIwODNiYzhmZmRjMjlhOGVmNDQ1ODUzMjcyOTI1NDM0YTVhYWExMzNkZmFkNDQ4ODUwMjM5ZjIzN2RhNDAyODU3MDI0M2IxMDM=",
     "clientPackageManager": "npm",
-    "languages": ["en", "fr"]
+    "languages": ["en", "fr"],
+    "entities": ["Admin", "Instructor", "Course", "Lesson", "Student"],
+    "lastLiquibaseTimestamp": 1618822664000
   }
 }

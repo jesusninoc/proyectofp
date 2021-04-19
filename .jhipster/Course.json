@@ -1,0 +1,52 @@
+{
+  "name": "Course",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "lesson",
+      "otherEntityRelationshipName": "course",
+      "relationshipName": "lesson"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "instructor",
+      "otherEntityRelationshipName": "course",
+      "relationshipName": "instructor"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "student",
+      "otherEntityRelationshipName": "course",
+      "relationshipName": "student",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "course",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210419085742"
+}

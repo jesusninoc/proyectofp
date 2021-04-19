@@ -85,6 +85,7 @@
     "rxjs": "6.6.7",
     "swagger-ui-dist": "3.46.0",
     "tslib": "2.1.0",
+    "typed.js": "^2.0.12",
     "zone.js": "0.11.3"
   },
   "devDependencies": {

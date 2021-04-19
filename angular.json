@@ -95,6 +95,7 @@
   },
   "defaultProject": "academiaonline",
   "cli": {
+    "analytics": false,
     "packageManager": "npm"
   }
 }
