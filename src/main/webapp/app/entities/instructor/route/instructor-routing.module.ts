@@ -7,12 +7,15 @@ import { InstructorDetailComponent } from '../detail/instructor-detail.component
 import { InstructorUpdateComponent } from '../update/instructor-update.component';
 import { InstructorRoutingResolveService } from './instructor-routing-resolve.service';
 
+import { Authority } from 'app/config/authority.constants';
+
 const instructorRoute: Routes = [
   {
     path: '',
     component: InstructorComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -23,6 +26,9 @@ const instructorRoute: Routes = [
       instructor: InstructorRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
   {
     path: 'new',
@@ -31,6 +37,9 @@ const instructorRoute: Routes = [
       instructor: InstructorRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
   {
     path: ':id/edit',
@@ -39,6 +48,9 @@ const instructorRoute: Routes = [
       instructor: InstructorRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
 ];
 
