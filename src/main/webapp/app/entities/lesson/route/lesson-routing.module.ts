@@ -7,12 +7,15 @@ import { LessonDetailComponent } from '../detail/lesson-detail.component';
 import { LessonUpdateComponent } from '../update/lesson-update.component';
 import { LessonRoutingResolveService } from './lesson-routing-resolve.service';
 
+import { Authority } from 'app/config/authority.constants';
+
 const lessonRoute: Routes = [
   {
     path: '',
     component: LessonComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -23,6 +26,9 @@ const lessonRoute: Routes = [
       lesson: LessonRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
   {
     path: 'new',
@@ -31,6 +37,9 @@ const lessonRoute: Routes = [
       lesson: LessonRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
   {
     path: ':id/edit',
@@ -39,6 +48,9 @@ const lessonRoute: Routes = [
       lesson: LessonRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
 ];
 

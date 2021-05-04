@@ -7,12 +7,15 @@ import { StudentDetailComponent } from '../detail/student-detail.component';
 import { StudentUpdateComponent } from '../update/student-update.component';
 import { StudentRoutingResolveService } from './student-routing-resolve.service';
 
+import { Authority } from 'app/config/authority.constants';
+
 const studentRoute: Routes = [
   {
     path: '',
     component: StudentComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -23,6 +26,9 @@ const studentRoute: Routes = [
       student: StudentRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
   {
     path: 'new',
@@ -31,6 +37,9 @@ const studentRoute: Routes = [
       student: StudentRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
   {
     path: ':id/edit',
@@ -39,6 +48,9 @@ const studentRoute: Routes = [
       student: StudentRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
 ];
 

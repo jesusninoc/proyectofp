@@ -7,12 +7,15 @@ import { AdminDetailComponent } from '../detail/admin-detail.component';
 import { AdminUpdateComponent } from '../update/admin-update.component';
 import { AdminRoutingResolveService } from './admin-routing-resolve.service';
 
+import { Authority } from 'app/config/authority.constants';
+
 const adminRoute: Routes = [
   {
     path: '',
     component: AdminComponent,
     data: {
       defaultSort: 'id,asc',
+      authorities: [Authority.ADMIN],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -23,6 +26,9 @@ const adminRoute: Routes = [
       admin: AdminRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
   {
     path: 'new',
@@ -31,6 +37,9 @@ const adminRoute: Routes = [
       admin: AdminRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
   {
     path: ':id/edit',
@@ -39,6 +48,9 @@ const adminRoute: Routes = [
       admin: AdminRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
+    data: {
+      authorities: [Authority.ADMIN],
+    },
   },
 ];
 
