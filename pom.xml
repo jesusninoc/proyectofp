@@ -365,7 +365,7 @@
                     <execution>
                         <phase>process-resources</phase>
                         <configuration>
-                            <!-- <propertyFile>target/classes/liquibase.properties</propertyFile> -->
+                            <propertyFile>target/classes/aplication-prop.yml</propertyFile>
                             <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                         </configuration>
                         <goals>
