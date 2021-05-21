@@ -365,6 +365,9 @@
                     <propertyFile>src/main/resources/liquibase.properties</propertyFile>
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                 </configuration>
+                <goals>
+                    <goal>update</goal>
+                </goals>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
