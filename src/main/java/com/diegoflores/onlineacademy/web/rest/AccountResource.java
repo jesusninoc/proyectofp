@@ -7,7 +7,6 @@ import com.diegoflores.onlineacademy.service.MailService;
 import com.diegoflores.onlineacademy.service.UserService;
 import com.diegoflores.onlineacademy.service.dto.AdminUserDTO;
 import com.diegoflores.onlineacademy.service.dto.PasswordChangeDTO;
-import com.diegoflores.onlineacademy.service.dto.UserDTO;
 import com.diegoflores.onlineacademy.web.rest.errors.*;
 import com.diegoflores.onlineacademy.web.rest.vm.KeyAndPasswordVM;
 import com.diegoflores.onlineacademy.web.rest.vm.ManagedUserVM;
