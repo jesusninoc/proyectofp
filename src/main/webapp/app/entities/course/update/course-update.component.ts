@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, retry } from 'rxjs/operators';
 
 import { ICourse, Course } from '../course.model';
 import { CourseService } from '../service/course.service';
@@ -12,6 +12,7 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IInstructor } from 'app/entities/instructor/instructor.model';
 import { InstructorService } from 'app/entities/instructor/service/instructor.service';
+import { ILesson } from 'app/entities/lesson/lesson.model';
 
 @Component({
   selector: 'jhi-course-update',
@@ -21,13 +22,20 @@ export class CourseUpdateComponent implements OnInit {
   isSaving = false;
 
   instructorsSharedCollection: IInstructor[] = [];
+  lesson = {
+    error: false,
+  };
+  lessons: ILesson[] = [];
 
   editForm = this.fb.group({
     id: [],
     name: [null, [Validators.required]],
     description: [null, [Validators.required]],
     image: [null, [Validators.required]],
-    instructor: [],
+    instructor: [null, [Validators.required]],
+    nameLesson: [],
+    descLesson: [],
+    videoLesson: [],
   });
 
   constructor(
@@ -71,15 +79,39 @@ export class CourseUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const course = this.createFromForm();
-    if (course.id !== undefined) {
-      this.subscribeToSaveResponse(this.courseService.update(course));
-    } else {
-      this.subscribeToSaveResponse(this.courseService.create(course));
-    }
+    console.log(course);
+    // if (course.id !== undefined) {
+    //   this.subscribeToSaveResponse(this.courseService.update(course));
+    // } else {
+    //   this.subscribeToSaveResponse(this.courseService.create(course));
+    // }
   }
 
   trackInstructorById(index: number, item: IInstructor): number {
     return item.id!;
+  }
+
+  addLessons(): void {
+    const nameLesson: any = this.editForm.get('nameLesson');
+    const descLesson: any = this.editForm.get('descLesson');
+    const videoLesson: any = this.editForm.get('videoLesson');
+    console.log(nameLesson);
+    console.log(descLesson);
+    console.log(videoLesson);
+
+    // this.lessons.push({
+    //   description: '',
+    //   name: nameLesson,
+    //   link: ''
+    // })
+  }
+
+  protected verificationLesson(nameLesson: string, descLesson: string, videoLesson: string): void {
+    if (!nameLesson || !descLesson || !videoLesson) {
+      this.lesson.error = true;
+      return;
+    }
+    this.lesson.error = false;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ICourse>>): void {
