@@ -33,9 +33,10 @@ export class CourseUpdateComponent implements OnInit {
     description: [null, [Validators.required]],
     image: [null, [Validators.required]],
     instructor: [null, [Validators.required]],
-    nameLesson: [],
-    descLesson: [],
-    videoLesson: [],
+    // nameLesson: [],
+    // descLesson: [],
+    // videoLesson: [],
+    // linkCourse: [null, [Validators.required]],
   });
 
   constructor(
@@ -80,38 +81,15 @@ export class CourseUpdateComponent implements OnInit {
     this.isSaving = true;
     const course = this.createFromForm();
     console.log(course);
-    // if (course.id !== undefined) {
-    //   this.subscribeToSaveResponse(this.courseService.update(course));
-    // } else {
-    //   this.subscribeToSaveResponse(this.courseService.create(course));
-    // }
+    if (course.id !== undefined) {
+      this.subscribeToSaveResponse(this.courseService.update(course));
+    } else {
+      this.subscribeToSaveResponse(this.courseService.create(course));
+    }
   }
 
   trackInstructorById(index: number, item: IInstructor): number {
     return item.id!;
-  }
-
-  addLessons(): void {
-    const nameLesson: any = this.editForm.get('nameLesson');
-    const descLesson: any = this.editForm.get('descLesson');
-    const videoLesson: any = this.editForm.get('videoLesson');
-    console.log(nameLesson);
-    console.log(descLesson);
-    console.log(videoLesson);
-
-    // this.lessons.push({
-    //   description: '',
-    //   name: nameLesson,
-    //   link: ''
-    // })
-  }
-
-  protected verificationLesson(nameLesson: string, descLesson: string, videoLesson: string): void {
-    if (!nameLesson || !descLesson || !videoLesson) {
-      this.lesson.error = true;
-      return;
-    }
-    this.lesson.error = false;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ICourse>>): void {
