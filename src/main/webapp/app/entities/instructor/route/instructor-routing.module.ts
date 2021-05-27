@@ -26,7 +26,7 @@ const instructorRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.INSTRUCTOR],
     },
   },
   {
@@ -37,7 +37,7 @@ const instructorRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.INSTRUCTOR],
     },
   },
   {
@@ -48,7 +48,7 @@ const instructorRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.INSTRUCTOR],
     },
   },
 ];
