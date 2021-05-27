@@ -98,6 +98,20 @@
         </loadData>
     </changeSet>
 
+    <changeSet id="00000000000001-1-relations" author="diego">
+
+        <createTable tableName="rel_user__course">
+            <column name="course_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="user_id, course_id" tableName="rel_user__course"/>
+    </changeSet>
+
     <changeSet author="jhipster" id="00000000000002" context="test">
         <createTable tableName="jhi_date_time_wrapper">
             <column autoIncrement="true" name="id" type="BIGINT">

@@ -48,15 +48,10 @@ public class CacheConfiguration {
             createCache(cm, com.diegoflores.onlineacademy.domain.User.class.getName());
             createCache(cm, com.diegoflores.onlineacademy.domain.Authority.class.getName());
             createCache(cm, com.diegoflores.onlineacademy.domain.User.class.getName() + ".authorities");
-            createCache(cm, com.diegoflores.onlineacademy.domain.Admin.class.getName());
-            createCache(cm, com.diegoflores.onlineacademy.domain.Instructor.class.getName());
-            createCache(cm, com.diegoflores.onlineacademy.domain.Instructor.class.getName() + ".courses");
             createCache(cm, com.diegoflores.onlineacademy.domain.Course.class.getName());
             createCache(cm, com.diegoflores.onlineacademy.domain.Course.class.getName() + ".lessons");
             createCache(cm, com.diegoflores.onlineacademy.domain.Course.class.getName() + ".students");
             createCache(cm, com.diegoflores.onlineacademy.domain.Lesson.class.getName());
-            createCache(cm, com.diegoflores.onlineacademy.domain.Student.class.getName());
-            createCache(cm, com.diegoflores.onlineacademy.domain.Student.class.getName() + ".courses");
             // jhipster-needle-ehcache-add-entry
         };
     }

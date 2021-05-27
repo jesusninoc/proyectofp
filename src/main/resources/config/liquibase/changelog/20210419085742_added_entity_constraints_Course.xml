@@ -12,6 +12,6 @@
                                  baseTableName="course"
                                  constraintName="fk_course__instructor_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="instructor"/>
+                                 referencedTableName="jhi_user"/>
     </changeSet>
 </databaseChangeLog>
