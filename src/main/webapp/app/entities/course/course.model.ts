@@ -1,6 +1,5 @@
 import { ILesson } from 'app/entities/lesson/lesson.model';
-import { IInstructor } from 'app/entities/instructor/instructor.model';
-import { IStudent } from 'app/entities/student/student.model';
+import { IUser } from '../user/user.model';
 
 export interface ICourse {
   id?: number;
@@ -8,8 +7,8 @@ export interface ICourse {
   description?: string;
   image?: string;
   lessons?: ILesson[] | null;
-  instructor?: IInstructor | null;
-  students?: IStudent[] | null;
+  instructor?: IUser | null;
+  students?: IUser[] | null;
 }
 
 export class Course implements ICourse {
@@ -19,8 +18,8 @@ export class Course implements ICourse {
     public description?: string,
     public image?: string,
     public lessons?: ILesson[] | null,
-    public instructor?: IInstructor | null,
-    public students?: IStudent[] | null
+    public instructor?: IUser | null,
+    public students?: IUser[] | null
   ) {}
 }
 
