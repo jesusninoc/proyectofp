@@ -2,6 +2,7 @@ package com.diegoflores.onlineacademy.domain;
 
 import com.diegoflores.onlineacademy.config.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -91,6 +92,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JoinTable(name = "rel_user__course", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
+    @JsonIgnoreProperties(value = { "lessons", "users" }, allowSetters = true)
+    private Set<Course> courses = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -206,6 +213,31 @@ public class User extends AbstractAuditingEntity implements Serializable {
             return false;
         }
         return id != null && id.equals(((User) o).id);
+    }
+
+    public Set<Course> getCourses() {
+        return this.courses;
+    }
+
+    public User courses(Set<Course> courses) {
+        this.setCourses(courses);
+        return this;
+    }
+
+    public User addCourse(Course course) {
+        this.courses.add(course);
+        course.getStudents().add(this);
+        return this;
+    }
+
+    public User removeCourse(Course course) {
+        this.courses.remove(course);
+        course.getStudents().remove(this);
+        return this;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
     @Override

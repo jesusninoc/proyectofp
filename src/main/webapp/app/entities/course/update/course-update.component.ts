@@ -10,9 +10,9 @@ import { CourseService } from '../service/course.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IInstructor } from 'app/entities/instructor/instructor.model';
-import { InstructorService } from 'app/entities/instructor/service/instructor.service';
 import { ILesson } from 'app/entities/lesson/lesson.model';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-course-update',
@@ -21,7 +21,7 @@ import { ILesson } from 'app/entities/lesson/lesson.model';
 export class CourseUpdateComponent implements OnInit {
   isSaving = false;
 
-  instructorsSharedCollection: IInstructor[] = [];
+  instructorsSharedCollection: IUser[] = [];
   lesson = {
     error: false,
   };
@@ -33,16 +33,17 @@ export class CourseUpdateComponent implements OnInit {
     description: [null, [Validators.required]],
     image: [null, [Validators.required]],
     instructor: [null, [Validators.required]],
-    nameLesson: [],
-    descLesson: [],
-    videoLesson: [],
+    // nameLesson: [],
+    // descLesson: [],
+    // videoLesson: [],
+    // linkCourse: [null, [Validators.required]],
   });
 
   constructor(
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected courseService: CourseService,
-    protected instructorService: InstructorService,
+    protected instructorService: UserService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -80,38 +81,15 @@ export class CourseUpdateComponent implements OnInit {
     this.isSaving = true;
     const course = this.createFromForm();
     console.log(course);
-    // if (course.id !== undefined) {
-    //   this.subscribeToSaveResponse(this.courseService.update(course));
-    // } else {
-    //   this.subscribeToSaveResponse(this.courseService.create(course));
-    // }
-  }
-
-  trackInstructorById(index: number, item: IInstructor): number {
-    return item.id!;
-  }
-
-  addLessons(): void {
-    const nameLesson: any = this.editForm.get('nameLesson');
-    const descLesson: any = this.editForm.get('descLesson');
-    const videoLesson: any = this.editForm.get('videoLesson');
-    console.log(nameLesson);
-    console.log(descLesson);
-    console.log(videoLesson);
-
-    // this.lessons.push({
-    //   description: '',
-    //   name: nameLesson,
-    //   link: ''
-    // })
-  }
-
-  protected verificationLesson(nameLesson: string, descLesson: string, videoLesson: string): void {
-    if (!nameLesson || !descLesson || !videoLesson) {
-      this.lesson.error = true;
-      return;
+    if (course.id !== undefined) {
+      this.subscribeToSaveResponse(this.courseService.update(course));
+    } else {
+      this.subscribeToSaveResponse(this.courseService.create(course));
     }
-    this.lesson.error = false;
+  }
+
+  trackInstructorById(index: number, item: IUser): number {
+    return item.id!;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ICourse>>): void {
@@ -142,7 +120,7 @@ export class CourseUpdateComponent implements OnInit {
       instructor: course.instructor,
     });
 
-    this.instructorsSharedCollection = this.instructorService.addInstructorToCollectionIfMissing(
+    this.instructorsSharedCollection = this.instructorService.addUserToCollectionIfMissing(
       this.instructorsSharedCollection,
       course.instructor
     );
@@ -151,13 +129,13 @@ export class CourseUpdateComponent implements OnInit {
   protected loadRelationshipsOptions(): void {
     this.instructorService
       .query()
-      .pipe(map((res: HttpResponse<IInstructor[]>) => res.body ?? []))
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
       .pipe(
-        map((instructors: IInstructor[]) =>
-          this.instructorService.addInstructorToCollectionIfMissing(instructors, this.editForm.get('instructor')!.value)
+        map((instructors: IUser[]) =>
+          this.instructorService.addUserToCollectionIfMissing(instructors, this.editForm.get('instructor')!.value)
         )
       )
-      .subscribe((instructors: IInstructor[]) => (this.instructorsSharedCollection = instructors));
+      .subscribe((instructors: IUser[]) => (this.instructorsSharedCollection = instructors));
   }
 
   protected createFromForm(): ICourse {

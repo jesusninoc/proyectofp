@@ -1,61 +1,61 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { InstructorComponent } from '../list/instructor.component';
-import { InstructorDetailComponent } from '../detail/instructor-detail.component';
-import { InstructorUpdateComponent } from '../update/instructor-update.component';
-import { InstructorRoutingResolveService } from './instructor-routing-resolve.service';
-
+import { ListCoursesComponent } from '../list/list-courses.component';
 import { Authority } from 'app/config/authority.constants';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { DetailComponent } from '../detail/detail.component';
+import { CourseRoutingResolveService } from 'app/entities/course/route/course-routing-resolve.service';
+import { UpdateComponent } from '../update/update.component';
 
 const instructorRoute: Routes = [
   {
     path: '',
-    component: InstructorComponent,
+    component: ListCoursesComponent,
     data: {
       defaultSort: 'id,asc',
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.INSTRUCTOR],
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
-    component: InstructorDetailComponent,
+    component: DetailComponent,
     resolve: {
-      instructor: InstructorRoutingResolveService,
+      lesson: CourseRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.INSTRUCTOR],
     },
   },
   {
     path: 'new',
-    component: InstructorUpdateComponent,
+    component: UpdateComponent,
     resolve: {
-      instructor: InstructorRoutingResolveService,
+      lesson: CourseRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.INSTRUCTOR],
     },
   },
   {
     path: ':id/edit',
-    component: InstructorUpdateComponent,
+    component: UpdateComponent,
     resolve: {
-      instructor: InstructorRoutingResolveService,
+      lesson: CourseRoutingResolveService,
     },
     canActivate: [UserRouteAccessService],
     data: {
-      authorities: [Authority.ADMIN],
+      authorities: [Authority.INSTRUCTOR],
     },
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(instructorRoute)],
+  declarations: [],
+  imports: [CommonModule, RouterModule.forChild(instructorRoute)],
   exports: [RouterModule],
 })
 export class InstructorRoutingModule {}

@@ -58,9 +58,18 @@
             <small class="form-text text-danger" *ngIf="editForm.get('instructor')?.errors?.required"> This field is required. </small>
           </div>
         </div>
+
+        <!-- link course -->
+        <!-- <div class="form-group">
+          <label class="form-control-label" for="field_image">Link Course</label>
+          <input type="text" class="form-control" name="link_course" id="field_link_course" data-cy="link_course" formControlName="linkCourse" />
+          <div *ngIf="editForm.get('linkCourse')!.invalid && (editForm.get('linkCourse')!.dirty || editForm.get('linkCourse')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('linkCourse')?.errors?.required"> This field is required. </small>
+          </div>
+        </div> -->
       </div>
 
-      <div class="card border-primary mb-3">
+      <!-- <div class="card border-primary mb-3">
         <div class="card-header">Clases</div>
         <div class="card-body">
           <div class="form-group">
@@ -102,7 +111,7 @@
             </ul>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div>
         <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
