@@ -6,6 +6,7 @@ export interface ICourse {
   name?: string;
   description?: string;
   image?: string;
+  link?: string;
   lessons?: ILesson[] | null;
   instructor?: IUser | null;
   students?: IUser[] | null;
@@ -17,6 +18,7 @@ export class Course implements ICourse {
     public name?: string,
     public description?: string,
     public image?: string,
+    public link?: string,
     public lessons?: ILesson[] | null,
     public instructor?: IUser | null,
     public students?: IUser[] | null

@@ -35,6 +35,10 @@ public class Course implements Serializable {
     @Column(name = "image", nullable = false)
     private String image;
 
+    @NotNull
+    @Column(name = "link", nullable = false)
+    private String link;
+
     @OneToMany(mappedBy = "course")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "course" }, allowSetters = true)
@@ -100,6 +104,14 @@ public class Course implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public Set<Lesson> getLessons() {

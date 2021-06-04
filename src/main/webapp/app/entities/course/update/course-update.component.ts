@@ -13,6 +13,8 @@ import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { ILesson } from 'app/entities/lesson/lesson.model';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-course-update',
@@ -20,6 +22,8 @@ import { UserService } from 'app/entities/user/user.service';
 })
 export class CourseUpdateComponent implements OnInit {
   isSaving = false;
+  account: Account | null = null;
+  instructor: IUser | null = null;
 
   instructorsSharedCollection: IUser[] = [];
   lesson = {
@@ -36,7 +40,7 @@ export class CourseUpdateComponent implements OnInit {
     // nameLesson: [],
     // descLesson: [],
     // videoLesson: [],
-    // linkCourse: [null, [Validators.required]],
+    linkCourse: [null, [Validators.required]],
   });
 
   constructor(
@@ -45,11 +49,16 @@ export class CourseUpdateComponent implements OnInit {
     protected courseService: CourseService,
     protected instructorService: UserService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
+    this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+
     this.activatedRoute.data.subscribe(({ course }) => {
+      this.instructor = course.instructor;
+      console.log(this.instructor?.login);
       this.updateForm(course);
 
       this.loadRelationshipsOptions();
@@ -139,13 +148,18 @@ export class CourseUpdateComponent implements OnInit {
   }
 
   protected createFromForm(): ICourse {
+    this.instructor = {
+      id: this.account?.id,
+      login: this.account?.login,
+    };
     return {
       ...new Course(),
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
       description: this.editForm.get(['description'])!.value,
       image: this.editForm.get(['image'])!.value,
-      instructor: this.editForm.get(['instructor'])!.value,
+      instructor: this.instructor,
+      link: this.editForm.get(['linkCourse'])!.value,
     };
   }
 }
