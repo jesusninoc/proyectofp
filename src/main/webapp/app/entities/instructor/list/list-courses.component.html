@@ -1,6 +1,6 @@
 <div>
-  <h2 id="page-heading" data-cy="CourseHeading">
-    <span>Courses</span>
+  <h2 id="page-heading" data-cy="LessonHeading">
+    <span>Lessons</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
@@ -12,10 +12,10 @@
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-course"
-        [routerLink]="['/course/new']"
+        [routerLink]="['/instructor-panel/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Course </span>
+        <span> Create a new Lesson </span>
       </button>
     </div>
   </h2>
@@ -28,39 +28,43 @@
     <span>No courses found</span>
   </div>
 
-  <div class="table-responsive" id="entities" *ngIf="false">
+  <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="image"><span>Image</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="instructor.id"><span>Instructor</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="course.id"><span>Students</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let course of courses; trackBy: trackId" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/course', course.id, 'view']">{{ course.id }}</a>
+            <a [routerLink]="['/instructor-panel', course.id, 'view']">{{ course.id }}</a>
           </td>
           <td>{{ course.name }}</td>
           <td>{{ course.description }}</td>
-          <td>{{ course.image }}</td>
-          <td>
-            <div *ngIf="course.instructor">
-              <a [routerLink]="['/instructor', course.instructor?.id, 'view']">{{ course.instructor?.id }}</a>
-            </div>
-          </td>
+          <td>{{ course.students?.length }}</td>
           <td class="text-right">
             <div class="btn-group">
-              <button type="submit" [routerLink]="['/course', course.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <button
+                type="submit"
+                [routerLink]="['/instructor-panel', course.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">View</span>
               </button>
 
-              <button type="submit" [routerLink]="['/course', course.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button
+                type="submit"
+                [routerLink]="['/instructor-panel', course.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Edit</span>
               </button>
@@ -74,41 +78,6 @@
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div class="row" *ngIf="courses && courses.length > 0">
-    <div class="col-lg-4" *ngFor="let course of courses; trackBy: trackId">
-      <div class="card mb-3">
-        <h4 class="card-header d-flex align-items-center" style="height: 80px">{{ course.name }}</h4>
-        <div class="card-body">
-          <h6 class="card-subtitle text-muted">Java</h6>
-        </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="d-block user-select-none"
-          width="100%"
-          height="200"
-          aria-label="Placeholder: Image cap"
-          focusable="false"
-          role="img"
-          preserveAspectRatio="xMidYMid slice"
-          viewBox="0 0 318 180"
-          style="font-size: 1.125rem; text-anchor: middle"
-        >
-          <rect width="100%" height="100%" fill="#868e96"></rect>
-          <text x="50%" y="50%" fill="#dee2e6" dy=".3em">{{ course.image }}</text>
-        </svg>
-        <div class="card-body">
-          <p class="card-text">{{ course.description }}</p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">{{ course.instructor?.login }}</li>
-        </ul>
-        <div class="card-body">
-          <a [routerLink]="['/course', course.id, 'view']" class="card-link">Mas Informacion</a>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div *ngIf="courses && courses.length > 0">

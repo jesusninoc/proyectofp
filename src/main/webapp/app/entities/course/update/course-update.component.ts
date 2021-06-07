@@ -3,15 +3,18 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, retry } from 'rxjs/operators';
 
 import { ICourse, Course } from '../course.model';
 import { CourseService } from '../service/course.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IInstructor } from 'app/entities/instructor/instructor.model';
-import { InstructorService } from 'app/entities/instructor/service/instructor.service';
+import { ILesson } from 'app/entities/lesson/lesson.model';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-course-update',
@@ -19,28 +22,43 @@ import { InstructorService } from 'app/entities/instructor/service/instructor.se
 })
 export class CourseUpdateComponent implements OnInit {
   isSaving = false;
+  account: Account | null = null;
+  instructor: IUser | null = null;
 
-  instructorsSharedCollection: IInstructor[] = [];
+  instructorsSharedCollection: IUser[] = [];
+  lesson = {
+    error: false,
+  };
+  lessons: ILesson[] = [];
 
   editForm = this.fb.group({
     id: [],
     name: [null, [Validators.required]],
     description: [null, [Validators.required]],
     image: [null, [Validators.required]],
-    instructor: [],
+    instructor: [null, [Validators.required]],
+    // nameLesson: [],
+    // descLesson: [],
+    // videoLesson: [],
+    linkCourse: [null, [Validators.required]],
   });
 
   constructor(
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected courseService: CourseService,
-    protected instructorService: InstructorService,
+    protected instructorService: UserService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
+    this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+
     this.activatedRoute.data.subscribe(({ course }) => {
+      this.instructor = course.instructor;
+      console.log(this.instructor?.login);
       this.updateForm(course);
 
       this.loadRelationshipsOptions();
@@ -71,6 +89,7 @@ export class CourseUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const course = this.createFromForm();
+    console.log(course);
     if (course.id !== undefined) {
       this.subscribeToSaveResponse(this.courseService.update(course));
     } else {
@@ -78,7 +97,7 @@ export class CourseUpdateComponent implements OnInit {
     }
   }
 
-  trackInstructorById(index: number, item: IInstructor): number {
+  trackInstructorById(index: number, item: IUser): number {
     return item.id!;
   }
 
@@ -110,7 +129,7 @@ export class CourseUpdateComponent implements OnInit {
       instructor: course.instructor,
     });
 
-    this.instructorsSharedCollection = this.instructorService.addInstructorToCollectionIfMissing(
+    this.instructorsSharedCollection = this.instructorService.addUserToCollectionIfMissing(
       this.instructorsSharedCollection,
       course.instructor
     );
@@ -119,23 +138,28 @@ export class CourseUpdateComponent implements OnInit {
   protected loadRelationshipsOptions(): void {
     this.instructorService
       .query()
-      .pipe(map((res: HttpResponse<IInstructor[]>) => res.body ?? []))
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
       .pipe(
-        map((instructors: IInstructor[]) =>
-          this.instructorService.addInstructorToCollectionIfMissing(instructors, this.editForm.get('instructor')!.value)
+        map((instructors: IUser[]) =>
+          this.instructorService.addUserToCollectionIfMissing(instructors, this.editForm.get('instructor')!.value)
         )
       )
-      .subscribe((instructors: IInstructor[]) => (this.instructorsSharedCollection = instructors));
+      .subscribe((instructors: IUser[]) => (this.instructorsSharedCollection = instructors));
   }
 
   protected createFromForm(): ICourse {
+    this.instructor = {
+      id: this.account?.id,
+      login: this.account?.login,
+    };
     return {
       ...new Course(),
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
       description: this.editForm.get(['description'])!.value,
       image: this.editForm.get(['image'])!.value,
-      instructor: this.editForm.get(['instructor'])!.value,
+      instructor: this.instructor,
+      link: this.editForm.get(['linkCourse'])!.value,
     };
   }
 }

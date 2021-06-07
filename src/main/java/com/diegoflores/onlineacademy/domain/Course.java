@@ -35,6 +35,10 @@ public class Course implements Serializable {
     @Column(name = "image", nullable = false)
     private String image;
 
+    @NotNull
+    @Column(name = "link", nullable = false)
+    private String link;
+
     @OneToMany(mappedBy = "course")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "course" }, allowSetters = true)
@@ -42,12 +46,12 @@ public class Course implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "courses" }, allowSetters = true)
-    private Instructor instructor;
+    private User instructor;
 
     @ManyToMany(mappedBy = "courses")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "courses" }, allowSetters = true)
-    private Set<Student> students = new HashSet<>();
+    private Set<User> students = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -102,6 +106,14 @@ public class Course implements Serializable {
         this.image = image;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     public Set<Lesson> getLessons() {
         return this.lessons;
     }
@@ -133,41 +145,41 @@ public class Course implements Serializable {
         this.lessons = lessons;
     }
 
-    public Instructor getInstructor() {
+    public User getInstructor() {
         return this.instructor;
     }
 
-    public Course instructor(Instructor instructor) {
+    public Course instructor(User instructor) {
         this.setInstructor(instructor);
         return this;
     }
 
-    public void setInstructor(Instructor instructor) {
+    public void setInstructor(User instructor) {
         this.instructor = instructor;
     }
 
-    public Set<Student> getStudents() {
+    public Set<User> getStudents() {
         return this.students;
     }
 
-    public Course students(Set<Student> students) {
+    public Course students(Set<User> students) {
         this.setStudents(students);
         return this;
     }
 
-    public Course addStudent(Student student) {
+    public Course addStudent(User student) {
         this.students.add(student);
         student.getCourses().add(this);
         return this;
     }
 
-    public Course removeStudent(Student student) {
+    public Course removeStudent(User student) {
         this.students.remove(student);
         student.getCourses().remove(this);
         return this;
     }
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(Set<User> students) {
         if (this.students != null) {
             this.students.forEach(i -> i.removeCourse(this));
         }

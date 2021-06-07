@@ -41,19 +41,33 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [hidden]="editForm.get('instructor')!.value == null">
           <label class="form-control-label" for="field_instructor">Instructor</label>
-          <select class="form-control" id="field_instructor" data-cy="instructor" name="instructor" formControlName="instructor">
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="
-                instructorOption.id === editForm.get('instructor')!.value?.id ? editForm.get('instructor')!.value : instructorOption
-              "
-              *ngFor="let instructorOption of instructorsSharedCollection; trackBy: trackInstructorById"
-            >
-              {{ instructorOption.id }}
-            </option>
-          </select>
+          <input
+            type="text"
+            [readonly]="true"
+            class="form-control"
+            name="instructor"
+            id="field_instructor"
+            data-cy="instructor"
+            [value]="instructor?.login"
+          />
+        </div>
+
+        <!-- link course -->
+        <div class="form-group">
+          <label class="form-control-label" for="field_image">Link Course</label>
+          <input
+            type="text"
+            class="form-control"
+            name="link_course"
+            id="field_link_course"
+            data-cy="link_course"
+            formControlName="linkCourse"
+          />
+          <div *ngIf="editForm.get('linkCourse')!.invalid && (editForm.get('linkCourse')!.dirty || editForm.get('linkCourse')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('linkCourse')?.errors?.required"> This field is required. </small>
+          </div>
         </div>
       </div>
 

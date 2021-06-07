@@ -26,6 +26,15 @@
           </span>
         </a>
       </li>
+
+      <li *jhiHasAnyAuthority="'ROLE_INSTRUCTOR'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" routerLink="/instructor-panel" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="home"></fa-icon>
+            <span>Instructor Panel</span>
+          </span>
+        </a>
+      </li>
       <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
       <li
         *ngSwitchCase="true"

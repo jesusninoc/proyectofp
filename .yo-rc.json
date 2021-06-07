@@ -43,6 +43,9 @@
     "clientPackageManager": "npm",
     "languages": ["en", "fr"],
     "entities": ["Admin", "Instructor", "Course", "Lesson", "Student"],
-    "lastLiquibaseTimestamp": 1618822664000
+    "lastLiquibaseTimestamp": 1618822664000,
+    "herokuAppName": "academiaonline",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "14"
   }
 }
